@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.dudkomatt.androidcourse.lecture3contactlist.data.Contact
+import com.github.dudkomatt.androidcourse.lecture3contactlist.data.ContactListMockDataProvider
 import com.github.dudkomatt.androidcourse.lecture3contactlist.data.fetchAllContacts
 import com.github.dudkomatt.androidcourse.lecture3contactlist.ui.theme.Lecture3ContactListTheme
 
@@ -77,15 +78,13 @@ fun MainScreenOrRequestPermission() {
         }
         Text("\"READ_CONTACTS\" permission is not granted")
     } else {
-        ContactListApp()
+        val allContacts: List<Contact> = remember { currentContext.fetchAllContacts() }
+        ContactListApp(allContacts)
     }
 }
 
 @Composable
-fun ContactListApp() {
-    var currentContext = LocalContext.current
-    val allContacts: List<Contact> = remember { currentContext.fetchAllContacts() }
-
+fun ContactListApp(contacts: List<Contact>) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -98,7 +97,7 @@ fun ContactListApp() {
             modifier = Modifier
                 .padding(padding)
         ) {
-            items(items = allContacts, key = { it.idx }) { contact ->
+            items(items = contacts, key = { it.idx }) { contact ->
                 ContactRow(contact)
             }
         }
@@ -123,7 +122,7 @@ fun ContactRow(contact: Contact) {
             .fillMaxWidth()
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             modifier = Modifier
@@ -131,6 +130,7 @@ fun ContactRow(contact: Contact) {
                 .weight(1f)
         ) {
             Text(
+                modifier = Modifier.padding(8.dp),
                 text = contact.name,
                 textAlign = TextAlign.Start,
                 maxLines = 1,
@@ -138,6 +138,7 @@ fun ContactRow(contact: Contact) {
                 style = MaterialTheme.typography.headlineSmall
             )
             Text(
+                modifier = Modifier.padding(8.dp),
                 text = "Number ${contact.phoneNumber}",
                 textAlign = TextAlign.Start,
                 maxLines = 1,
@@ -175,6 +176,24 @@ fun ContactIcon(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
+fun ContactListAppPreview() {
+    ContactListApp(ContactListMockDataProvider.contactList)
+}
+
+@Preview(showBackground = true)
+@Composable
 fun ContactRowPreview() {
     ContactRow(Contact(0, "Name", "+7 999 123 45 01"))
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ContactLongRowPreview() {
+    ContactRow(
+        Contact(
+            0,
+            "Super Long Display Name In header",
+            "+7 999 123 45 01 0000000000000000000000000000000000000000000000"
+        )
+    )
 }

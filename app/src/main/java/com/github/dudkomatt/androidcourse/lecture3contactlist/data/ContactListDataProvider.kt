@@ -58,3 +58,29 @@ private fun getContactPhoneNumber(cursor: Cursor): String {
         else -> cursor.getString(displayNumberIndex)
     } ?: NOT_AVAILABLE
 }
+
+object ContactListMockDataProvider {
+    val contactList: List<Contact> = listOf(
+        Contact(0, "Name Surname", "79991234567"),
+        Contact(1, "NonStandard PhoneTemplate", "12334567890974435345"),
+        Contact(2, "123", "123"),
+        Contact(3, "4", "4444"),
+        Contact(4, "5", "1-231-231-23"),
+        Contact(5, "6", "6666"),
+        Contact(6, "7", "7"),
+        Contact(7, "8", "8"),
+        Contact(8, "9", "9"),
+        Contact(9, "10", "10"),
+        Contact(10, "11", "111"),
+        Contact(11, "12", "12"),
+        Contact(12, "13", "13"),
+        Contact(13, "14", "14"),
+        Contact(14, "15", "15"),
+        Contact(15, "16", "16"),
+        Contact(
+            16,
+            "AVeryLongFirstNameThatWillEndWithElipsis",
+            "123456789023456789012345678901234567890"
+        )
+    )
+}
