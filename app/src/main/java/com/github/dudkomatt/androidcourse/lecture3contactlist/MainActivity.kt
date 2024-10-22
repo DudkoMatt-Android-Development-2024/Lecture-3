@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -67,7 +68,11 @@ fun MainScreenOrRequestPermission() {
             if (isGranted) {
                 isContactsPermissionGranted = true
             } else {
-                Toast.makeText(currentContext, "Permissions are not granted", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    currentContext,
+                    currentContext.getString(R.string.permissions_are_not_granted),
+                    Toast.LENGTH_LONG
+                )
                     .show()
             }
         }
@@ -76,7 +81,7 @@ fun MainScreenOrRequestPermission() {
         SideEffect {
             permissionLauncher.launch(android.Manifest.permission.READ_CONTACTS)
         }
-        Text("\"READ_CONTACTS\" permission is not granted")
+        Text(stringResource(R.string.read_contacts_permission_is_not_granted))
     } else {
         val allContacts: List<Contact> = remember { currentContext.fetchAllContacts() }
         ContactListApp(allContacts)
@@ -139,7 +144,7 @@ fun ContactRow(contact: Contact) {
             )
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = "Number ${contact.phoneNumber}",
+                text = stringResource(R.string.number_text, contact.phoneNumber),
                 textAlign = TextAlign.Start,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -163,12 +168,12 @@ fun ContactIcon(modifier: Modifier = Modifier) {
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_launcher_background),
-            contentDescription = "Contact background",
+            contentDescription = stringResource(R.string.contact_background),
             tint = Color.Unspecified
         )
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "Contact foreground",
+            contentDescription = stringResource(R.string.contact_foreground),
             tint = Color.Unspecified
         )
     }
